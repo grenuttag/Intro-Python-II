@@ -40,7 +40,7 @@ treasure.s_to = narrow
 #
 
 # Make a new player object that is currently in the 'outside' room.
-player = Player("grenuttag", outside)
+player = Player("Adventurer", outside)
 
 # Write a loop that:
 #
@@ -53,26 +53,31 @@ player = Player("grenuttag", outside)
 #
 # If the user enters "q", quit the game.
 
+def try_direction(direction, room):
+    if hasattr(room, direction) and getattr(room, direction):
+        return getattr(room, direction)
+    else:
+        print("You are unable to move in that direction.")
+        return room
+
 running = 1
 
 while running != 0:
-    print(f"Location: {player.room}", player.room.description, "----\n", sep="\n")
-    command = input("Enter command >>> ")
+    print(
+        f"""
+-------------------------------------------------------
+{player.room}
+{player.room.description}
+-------------------------------------------------------
+
+    """)
+    command = input("Command >>> ")
 
     if command == "quit":
-        print("Until next time!")
         running = 0
-
         exit()
-    if command == "north":
-        print("Going north!")
-        player.room = player.room.n_to
-    if command == "east":
-        print("Going east")
-        # player.room = player.
-    if command == "south":
-        print("Going south!")
-    if command == "west":
-        print("Going west!")
+
+    if command in {"n", "e", "s", "w"}:
+        player.room = try_direction(command + "_to", player.room)
     else:
-        print(command)
+        print("[!] Please choose (n)orth, (e)ast, (s)outh, or (w)est.")

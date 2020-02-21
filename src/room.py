@@ -12,5 +12,7 @@ class Room:
         self.s_to = None
         self.w_to = None
 
+        self.items = []
+
     def __str__(self):
         return self.name
